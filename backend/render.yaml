@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: poker-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: poker-redis
+          property: connectionString
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app
+
+  - type: redis
+    name: poker-redis
+    plan: free
+    maxmemoryPolicy: allkeys-lru
+
